@@ -1,0 +1,7 @@
+query GetAllTodo {
+  getAllTodo {
+    status
+    team
+    title
+  }
+}

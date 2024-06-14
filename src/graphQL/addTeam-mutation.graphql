@@ -1,0 +1,5 @@
+mutation AddTeam($input: addTeamInput) {
+  addTeam(input: $input) {
+    teamName
+  }
+}
