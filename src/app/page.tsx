@@ -3,16 +3,23 @@
 import AddTodo from "./_components/AddTodo";
 import { ModeToggle } from "./_components/theme-toggle";
 import { TodoList } from "./_components/TodoList";
-import { useState } from "react";
+import { useGetAllTodoQuery } from "@/generated/pages/index";
 export default function Home() {
-  const [todoData, setTodoData] = useState();
-  return (
-    <main className="">
-      <div className="flex flex-row-reverse">
-        <ModeToggle />
-      </div>
-      <AddTodo setTodoData={setTodoData} todoData={todoData} />
-      <TodoList setTodoData={setTodoData} todoData={todoData} />
-    </main>
-  );
+  const { data, loading, error } = useGetAllTodoQuery();
+  console.log(data);
+  if (loading) {
+    return <div>This is loading</div>;
+  }
+
+  if (!loading) {
+    return (
+      <main>
+        <div className="flex flex-row-reverse">
+          <ModeToggle />
+        </div>
+        <AddTodo />
+        <TodoList />
+      </main>
+    );
+  }
 }

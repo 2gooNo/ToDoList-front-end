@@ -1,4 +1,3 @@
-// AddTodo.js
 "use client";
 
 import React, { useState } from "react";
@@ -13,43 +12,41 @@ import {
 } from "@/components/ui/select";
 import axios from "axios";
 import Home from "../page";
+import { TodoType } from "@/lib/types";
+import { useAddTodoMutation } from "@/generated/pages/index";
 
-const AddTodo = ({ setTodoData, todoData }) => {
-  const [inputVal, setInputVal] = useState("");
-  const [groupVal, setGroupVal] = useState("");
+const AddTodo = () => {
   const [inputAppear, setInputAppear] = useState(false);
+  const [addTodoData, setAddTodoData] = useState({ status: false });
 
-  // console.log(inputVal, groupVal);
+  const [addTodoMutation, { data, loading, error }] = useAddTodoMutation({
+    variables: {
+      input: addTodoData,
+    },
+  });
 
-  async function addTodo() {
-    try {
-      const { data } = await axios.post(
-        "http://localhost:8080/todoMethods/todoFunctions",
-        {
-          title: inputVal,
-          status: false,
-          team: groupVal,
-        }
-      );
-      // console.log(data);
-      setTodoData([data.allTodo]);
-    } catch (error) {
-      console.error("Error adding todo:", error);
-    }
-  }
+  const handleAdd = () => {
+    addTodoMutation;
+  };
 
   return (
     <div className="flex gap-2 max-w-[800px] m-auto mb-[40px]">
       <Input
         type="text"
         placeholder="Todo Title"
-        onChange={(e) => setInputVal(e.target.value)}
+        onChange={(e) =>
+          setAddTodoData((prev) => ({ ...prev, todoTitle: e.target.value }))
+        }
       />
-      <Button variant={"outline"} onClick={addTodo}>
+      <Button variant={"outline"} onClick={() => handleAdd()}>
         Add
       </Button>
       <div>
-        <Select onValueChange={(e) => setGroupVal(e)}>
+        <Select
+          onValueChange={(e) =>
+            setAddTodoData((prev) => ({ ...prev, groupVal: e }))
+          }
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Team" />
           </SelectTrigger>
