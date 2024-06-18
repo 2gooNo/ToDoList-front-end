@@ -23,6 +23,9 @@ export function TodoList() {
   if (loading) {
     return <div>This is loading</div>;
   }
+  if (error) {
+    return <div>Error</div>;
+  }
 
   if (!loading) {
     return (

@@ -62,10 +62,10 @@ const AddTodo = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={() => setInputAppear(!inputAppear)}>
+        {/* <Button onClick={() => setInputAppear(!inputAppear)}>
           {inputAppear ? "Cancel" : "Add team"}
         </Button>
-        {inputAppear && <AddTeam />}
+        {inputAppear && <AddTeam />} */}
       </div>
     );
   }

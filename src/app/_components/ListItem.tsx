@@ -8,7 +8,6 @@ import axios from "axios";
 import { TodoList } from "./TodoList";
 
 export default function ListItem(oneTodo: TodoType) {
-  const [todoData, setTodoData] = useState();
   // async function deleteTodo() {
   //   const response = await axios.delete(
   //     `http://localhost:8080/todoMethods/todoFunctions?id=${todo._id}`
