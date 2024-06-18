@@ -8,7 +8,11 @@ import React, { Dispatch, SetStateAction } from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AddTodoAndList from "./AddTodoAndList";
-import { useDeleteTodoMutation, useGetAllTodoQuery } from "@/generated/pages";
+import {
+  useDeleteTodoMutation,
+  useGetAllTodoQuery,
+  useMarkAsDoneMutation,
+} from "@/generated/pages";
 
 export default function ListItem(oneTodo: {
   oneTodo: {
@@ -20,12 +24,24 @@ export default function ListItem(oneTodo: {
 }) {
   const { refetch } = useGetAllTodoQuery();
 
-  const [deleteTodoMutation, { data, loading, error }] =
-    useDeleteTodoMutation();
+  const [markAsDoneMutation] = useMarkAsDoneMutation({});
+
+  const [deleteTodoMutation] = useDeleteTodoMutation();
 
   const handleDelete = async (id: string) => {
     await deleteTodoMutation({
       variables: { input: { id: id as string } },
+    })
+      .then(async () => {
+        await refetch();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleChangeStatus = async (id: string) => {
+    await markAsDoneMutation({
+      variables: { input: { todoId: id as string } },
     })
       .then(async () => {
         await refetch();
@@ -48,7 +64,7 @@ export default function ListItem(oneTodo: {
         <Button
           variant={"outline"}
           disabled={oneTodo.oneTodo.status}
-          // onClick={() => markAsDone()}
+          onClick={() => handleChangeStatus(oneTodo.oneTodo._id as string)}
         >
           Mark as done
         </Button>
