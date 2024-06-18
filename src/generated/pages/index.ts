@@ -30,6 +30,7 @@ export type Mutation = {
   addTeam?: Maybe<Array<Maybe<Team>>>;
   addTodo?: Maybe<Array<Maybe<Todo>>>;
   deleteTodo?: Maybe<Array<Maybe<Todo>>>;
+  markAsDone?: Maybe<Array<Maybe<Todo>>>;
 };
 
 
@@ -44,7 +45,12 @@ export type MutationAddTodoArgs = {
 
 
 export type MutationDeleteTodoArgs = {
-  input?: InputMaybe<TodoId>;
+  input?: InputMaybe<DeleteTodoInput>;
+};
+
+
+export type MutationMarkAsDoneArgs = {
+  input?: InputMaybe<MarkAsDoneInput>;
 };
 
 export type Query = {
@@ -60,6 +66,7 @@ export type Team = {
 
 export type Todo = {
   __typename?: 'Todo';
+  _id?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['Boolean']['output']>;
   team?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -69,8 +76,12 @@ export type AddTeamInput = {
   teamName?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type TodoId = {
+export type DeleteTodoInput = {
   id?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type MarkAsDoneInput = {
+  todoId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AddTeamMutationVariables = Exact<{
@@ -87,6 +98,13 @@ export type AddTodoMutationVariables = Exact<{
 
 export type AddTodoMutation = { __typename?: 'Mutation', addTodo?: Array<{ __typename?: 'Todo', status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
 
+export type DeleteTodoMutationVariables = Exact<{
+  input?: InputMaybe<DeleteTodoInput>;
+}>;
+
+
+export type DeleteTodoMutation = { __typename?: 'Mutation', deleteTodo?: Array<{ __typename?: 'Todo', _id?: string | null, status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
+
 export type GetAllTeamQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -95,7 +113,14 @@ export type GetAllTeamQuery = { __typename?: 'Query', getAllTeam?: Array<{ __typ
 export type GetAllTodoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllTodoQuery = { __typename?: 'Query', getAllTodo?: Array<{ __typename?: 'Todo', status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
+export type GetAllTodoQuery = { __typename?: 'Query', getAllTodo?: Array<{ __typename?: 'Todo', status?: boolean | null, team?: string | null, title?: string | null, _id?: string | null } | null> | null };
+
+export type MarkAsDoneMutationVariables = Exact<{
+  input?: InputMaybe<MarkAsDoneInput>;
+}>;
+
+
+export type MarkAsDoneMutation = { __typename?: 'Mutation', markAsDone?: Array<{ __typename?: 'Todo', _id?: string | null, status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
 
 
 export const AddTeamDocument = gql`
@@ -192,6 +217,55 @@ export function useAddTodoMutation(baseOptions?: Apollo.MutationHookOptions<AddT
 export type AddTodoMutationHookResult = ReturnType<typeof useAddTodoMutation>;
 export type AddTodoMutationResult = Apollo.MutationResult<AddTodoMutation>;
 export type AddTodoMutationOptions = Apollo.BaseMutationOptions<AddTodoMutation, AddTodoMutationVariables>;
+export const DeleteTodoDocument = gql`
+    mutation DeleteTodo($input: deleteTodoInput) {
+  deleteTodo(input: $input) {
+    _id
+    status
+    team
+    title
+  }
+}
+    `;
+export type DeleteTodoMutationFn = Apollo.MutationFunction<DeleteTodoMutation, DeleteTodoMutationVariables>;
+export type DeleteTodoProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<DeleteTodoMutation, DeleteTodoMutationVariables>
+    } & TChildProps;
+export function withDeleteTodo<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteTodoMutation,
+  DeleteTodoMutationVariables,
+  DeleteTodoProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteTodoMutation, DeleteTodoMutationVariables, DeleteTodoProps<TChildProps, TDataName>>(DeleteTodoDocument, {
+      alias: 'deleteTodo',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteTodoMutation__
+ *
+ * To run a mutation, you first call `useDeleteTodoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTodoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTodoMutation, { data, loading, error }] = useDeleteTodoMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteTodoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTodoMutation, DeleteTodoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTodoMutation, DeleteTodoMutationVariables>(DeleteTodoDocument, options);
+      }
+export type DeleteTodoMutationHookResult = ReturnType<typeof useDeleteTodoMutation>;
+export type DeleteTodoMutationResult = Apollo.MutationResult<DeleteTodoMutation>;
+export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<DeleteTodoMutation, DeleteTodoMutationVariables>;
 export const GetAllTeamDocument = gql`
     query GetAllTeam {
   getAllTeam {
@@ -250,6 +324,7 @@ export const GetAllTodoDocument = gql`
     status
     team
     title
+    _id
   }
 }
     `;
@@ -298,3 +373,52 @@ export type GetAllTodoQueryHookResult = ReturnType<typeof useGetAllTodoQuery>;
 export type GetAllTodoLazyQueryHookResult = ReturnType<typeof useGetAllTodoLazyQuery>;
 export type GetAllTodoSuspenseQueryHookResult = ReturnType<typeof useGetAllTodoSuspenseQuery>;
 export type GetAllTodoQueryResult = Apollo.QueryResult<GetAllTodoQuery, GetAllTodoQueryVariables>;
+export const MarkAsDoneDocument = gql`
+    mutation MarkAsDone($input: markAsDoneInput) {
+  markAsDone(input: $input) {
+    _id
+    status
+    team
+    title
+  }
+}
+    `;
+export type MarkAsDoneMutationFn = Apollo.MutationFunction<MarkAsDoneMutation, MarkAsDoneMutationVariables>;
+export type MarkAsDoneProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: Apollo.MutationFunction<MarkAsDoneMutation, MarkAsDoneMutationVariables>
+    } & TChildProps;
+export function withMarkAsDone<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  MarkAsDoneMutation,
+  MarkAsDoneMutationVariables,
+  MarkAsDoneProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, MarkAsDoneMutation, MarkAsDoneMutationVariables, MarkAsDoneProps<TChildProps, TDataName>>(MarkAsDoneDocument, {
+      alias: 'markAsDone',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useMarkAsDoneMutation__
+ *
+ * To run a mutation, you first call `useMarkAsDoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMarkAsDoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [markAsDoneMutation, { data, loading, error }] = useMarkAsDoneMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useMarkAsDoneMutation(baseOptions?: Apollo.MutationHookOptions<MarkAsDoneMutation, MarkAsDoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MarkAsDoneMutation, MarkAsDoneMutationVariables>(MarkAsDoneDocument, options);
+      }
+export type MarkAsDoneMutationHookResult = ReturnType<typeof useMarkAsDoneMutation>;
+export type MarkAsDoneMutationResult = Apollo.MutationResult<MarkAsDoneMutation>;
+export type MarkAsDoneMutationOptions = Apollo.BaseMutationOptions<MarkAsDoneMutation, MarkAsDoneMutationVariables>;

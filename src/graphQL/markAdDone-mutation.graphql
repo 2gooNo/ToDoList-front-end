@@ -1,0 +1,8 @@
+mutation MarkAsDone($input: markAsDoneInput) {
+  markAsDone(input: $input) {
+    _id
+    status
+    team
+    title
+  }
+}

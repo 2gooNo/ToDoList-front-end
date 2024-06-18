@@ -4,9 +4,9 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 interface Props extends React.PropsWithChildren {}
 
-const ApolloProviders = ( {children }:Props) => {
+const ApolloProviders = ({ children }: Props) => {
   const client = new ApolloClient({
-    uri: " http://localhost:8080/api/graphql",
+    uri: " http://localhost:8000/api/graphql",
     cache: new InMemoryCache(),
   });
   return (
