@@ -1,27 +1,16 @@
 "use client";
 
-import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { TodoType } from "@/lib/types";
-import { Trash2 } from "lucide-react";
-import React, { Dispatch, SetStateAction } from "react";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import AddTodoAndList from "./AddTodoAndList";
+import { TableCell, TableRow } from "@/components/ui/table";
 import {
   useDeleteTodoMutation,
   useGetAllTodoQuery,
   useMarkAsDoneMutation,
+  Todo,
 } from "@/generated/pages";
+import { Trash2 } from "lucide-react";
 
-export default function ListItem(oneTodo: {
-  oneTodo: {
-    status: boolean;
-    title: string;
-    team: string;
-    _id: String;
-  };
-}) {
+export const ListItem = (oneTodo: { oneTodo: Todo }) => {
   const { refetch } = useGetAllTodoQuery();
 
   const [markAsDoneMutation] = useMarkAsDoneMutation({});
@@ -63,7 +52,7 @@ export default function ListItem(oneTodo: {
       <TableCell className="flex gap-2 flex-row-reverse">
         <Button
           variant={"outline"}
-          disabled={oneTodo.oneTodo.status}
+          disabled={oneTodo?.oneTodo?.status || false}
           onClick={() => handleChangeStatus(oneTodo.oneTodo._id as string)}
         >
           Mark as done
@@ -74,4 +63,4 @@ export default function ListItem(oneTodo: {
       </TableCell>
     </TableRow>
   );
-}
+};

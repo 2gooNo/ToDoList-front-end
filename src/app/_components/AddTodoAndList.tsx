@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAddTodoMutation } from "@/generated/pages/index";
+import { Todo, useAddTodoMutation } from "@/generated/pages/index";
 import { useGetAllTodoQuery } from "@/generated/pages/index";
 import {
   Table,
@@ -23,16 +23,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
-import ListItem from "./ListItem";
+import { ListItem } from "./ListItem";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAddTeamMutation } from "@/generated/pages/index";
 import { useGetAllTeamQuery } from "@/generated/pages/index";
 
 const AddTodoAndList = () => {
-  const [inputAppear, setInputAppear] = useState();
+  const [inputAppear, setInputAppear] = useState(false);
   const [addTodoAndTeamData, setAddTodoAndTeamData] = useState({
     status: false,
+    newTeam: "",
+    team: "",
+    title: "",
   });
 
   const {
@@ -48,7 +51,7 @@ const AddTodoAndList = () => {
 
   const [addTeamMutation, { error: teamError }] = useAddTeamMutation({
     variables: {
-      input: { teamName: addTodoAndTeamData?.newTeam },
+      input: { teamName: addTodoAndTeamData.newTeam },
     },
   });
 
@@ -84,10 +87,10 @@ const AddTodoAndList = () => {
           type="text"
           placeholder="Todo Title"
           onChange={(e) =>
-            setAddTodoAndTeamData((prev) => ({
-              ...prev,
+            setAddTodoAndTeamData({
+              ...addTodoAndTeamData,
               title: e.target.value,
-            }))
+            })
           }
         />
         <Button variant="outline" onClick={() => handleAddTodo()}>
@@ -96,7 +99,7 @@ const AddTodoAndList = () => {
         <ToastContainer />
         <Select
           onValueChange={(value) =>
-            setAddTodoAndTeamData((prev) => ({ ...prev, team: value }))
+            setAddTodoAndTeamData({ ...addTodoAndTeamData, team: value })
           }
         >
           <SelectTrigger className="w-36">
@@ -107,8 +110,8 @@ const AddTodoAndList = () => {
               ? ""
               : teamData?.getAllTeam?.map((team, index) => {
                   return (
-                    <SelectItem key={index} value={team?.teamName}>
-                      {team?.teamName}
+                    <SelectItem key={index} value={team?.teamName || ""}>
+                      {team?.teamName || "Unknown Team"}
                     </SelectItem>
                   );
                 })}
@@ -121,10 +124,10 @@ const AddTodoAndList = () => {
           <div className="flex gap-[20px] m-l-[20px]">
             <Input
               onChange={(e) =>
-                setAddTodoAndTeamData((prev) => ({
-                  ...prev,
+                setAddTodoAndTeamData({
+                  ...addTodoAndTeamData,
                   newTeam: e.target.value,
-                }))
+                })
               }
               className="w-[200px]"
               type="text"
@@ -151,7 +154,7 @@ const AddTodoAndList = () => {
             {todoLoading
               ? ""
               : todoData?.getAllTodo?.map((todo, index) => (
-                  <ListItem key={index} oneTodo={todo} />
+                  <ListItem key={index} oneTodo={todo as Todo} />
                 ))}
           </TableBody>
           <TableFooter>
