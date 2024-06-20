@@ -1,12 +1,13 @@
 "use client";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import BackEndUrl from "@/_backEndUrl";
 
 interface Props extends React.PropsWithChildren {}
 
 const ApolloProviders = ({ children }: Props) => {
   const client = new ApolloClient({
-    uri: "https://todo-list-project-back-end.vercel.app/api/graphql",
+    uri: `${BackEndUrl}/api/graphql`,
     cache: new InMemoryCache(),
   });
   return (

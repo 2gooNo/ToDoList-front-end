@@ -48,7 +48,7 @@ const AddTodoAndList = () => {
 
   const [addTeamMutation, { error: teamError }] = useAddTeamMutation({
     variables: {
-      input: { teamName: addTodoAndTeamData.newTeam },
+      input: { teamName: addTodoAndTeamData?.newTeam },
     },
   });
 
@@ -105,9 +105,9 @@ const AddTodoAndList = () => {
           <SelectContent>
             {teamLoading
               ? ""
-              : teamData?.getAllTeam?.map((team) => {
+              : teamData?.getAllTeam?.map((team, index) => {
                   return (
-                    <SelectItem value={team?.teamName}>
+                    <SelectItem key={index} value={team?.teamName}>
                       {team?.teamName}
                     </SelectItem>
                   );
