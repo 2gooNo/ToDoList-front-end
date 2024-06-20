@@ -1,7 +1,7 @@
 overwrite: true
 schema: "https://todo-back-end-gamma.vercel.app/api/graphql"
 
-documents: "./src/graphql/**/*.graphql"
+documents: "./src/graphql/*.graphql"
 
 generates:
   ./src/generated/pages/index.ts:
