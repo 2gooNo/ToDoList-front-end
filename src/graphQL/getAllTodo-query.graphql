@@ -1,8 +1,8 @@
-query GetAllTodo {
+query getAllTodo {
   getAllTodo {
+    _id
     status
     team
     title
-    _id
   }
 }

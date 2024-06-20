@@ -117,7 +117,7 @@ export type AddTodoMutationVariables = Exact<{
 }>;
 
 
-export type AddTodoMutation = { __typename?: 'Mutation', addTodo?: Array<{ __typename?: 'Todo', status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
+export type AddTodoMutation = { __typename?: 'Mutation', addTodo?: Array<{ __typename?: 'Todo', _id?: string | null, status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
 
 export type DeleteTodoMutationVariables = Exact<{
   input?: InputMaybe<DeleteTodoInput>;
@@ -134,7 +134,7 @@ export type GetAllTeamQuery = { __typename?: 'Query', getAllTeam?: Array<{ __typ
 export type GetAllTodoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllTodoQuery = { __typename?: 'Query', getAllTodo?: Array<{ __typename?: 'Todo', status?: boolean | null, team?: string | null, title?: string | null, _id?: string | null } | null> | null };
+export type GetAllTodoQuery = { __typename?: 'Query', getAllTodo?: Array<{ __typename?: 'Todo', _id?: string | null, status?: boolean | null, team?: string | null, title?: string | null } | null> | null };
 
 export type MarkAsDoneMutationVariables = Exact<{
   input?: InputMaybe<MarkAsDoneInput>;
@@ -193,6 +193,7 @@ export type AddTeamMutationOptions = Apollo.BaseMutationOptions<AddTeamMutation,
 export const AddTodoDocument = gql`
     mutation AddTodo($input: CreateTodoInput) {
   addTodo(input: $input) {
+    _id
     status
     team
     title
@@ -340,12 +341,12 @@ export type GetAllTeamLazyQueryHookResult = ReturnType<typeof useGetAllTeamLazyQ
 export type GetAllTeamSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamSuspenseQuery>;
 export type GetAllTeamQueryResult = Apollo.QueryResult<GetAllTeamQuery, GetAllTeamQueryVariables>;
 export const GetAllTodoDocument = gql`
-    query GetAllTodo {
+    query getAllTodo {
   getAllTodo {
+    _id
     status
     team
     title
-    _id
   }
 }
     `;
