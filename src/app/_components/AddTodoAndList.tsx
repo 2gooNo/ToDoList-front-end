@@ -33,7 +33,6 @@ const AddTodoAndList = () => {
   const [inputAppear, setInputAppear] = useState(false);
   const [addTodoAndTeamData, setAddTodoAndTeamData] = useState({
     status: false,
-    newTeam: "",
     team: "",
     title: "",
   });
@@ -51,12 +50,12 @@ const AddTodoAndList = () => {
 
   const [addTeamMutation, { error: teamError }] = useAddTeamMutation({
     variables: {
-      input: { teamName: addTodoAndTeamData.newTeam },
+      input: { teamName: addTodoAndTeamData.team },
     },
   });
 
   async function handleAddTeam() {
-    if (addTodoAndTeamData.newTeam == undefined) {
+    if (addTodoAndTeamData.team == undefined) {
       toast("Please check your input");
     } else {
       await addTeamMutation();
@@ -73,7 +72,7 @@ const AddTodoAndList = () => {
   console.log(todoError);
 
   async function handleAddTodo() {
-    if (addTodoAndTeamData.title && addTodoAndTeamData.team) {
+    if (addTodoAndTeamData?.title && addTodoAndTeamData?.team) {
       await addTodoMutation();
       await todoRefetch();
     } else {
@@ -126,7 +125,7 @@ const AddTodoAndList = () => {
               onChange={(e) =>
                 setAddTodoAndTeamData({
                   ...addTodoAndTeamData,
-                  newTeam: e.target.value,
+                  team: e.target.value,
                 })
               }
               className="w-[200px]"

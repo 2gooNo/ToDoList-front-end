@@ -43,22 +43,22 @@ export const ListItem = (oneTodo: { oneTodo: Todo }) => {
   return (
     <TableRow
       className={`${
-        oneTodo?.oneTodo.status ? "line-through bg-secondary" : ""
+        oneTodo?.oneTodo?.status ? "line-through bg-secondary" : ""
       }`}
     >
-      <TableCell className="font-medium">{oneTodo?.oneTodo.title}</TableCell>
-      <TableCell>{oneTodo.oneTodo.status ? "DONE" : "PENDING"}</TableCell>
-      <TableCell>{oneTodo.oneTodo.team}</TableCell>
+      <TableCell className="font-medium">{oneTodo?.oneTodo?.title}</TableCell>
+      <TableCell>{oneTodo?.oneTodo?.status ? "DONE" : "PENDING"}</TableCell>
+      <TableCell>{oneTodo?.oneTodo?.team}</TableCell>
       <TableCell className="flex gap-2 flex-row-reverse">
         <Button
           variant={"outline"}
           disabled={oneTodo?.oneTodo?.status || false}
-          onClick={() => handleChangeStatus(oneTodo.oneTodo._id as string)}
+          onClick={() => handleChangeStatus(oneTodo?.oneTodo?._id as string)}
         >
           Mark as done
         </Button>
         <Button size={"sm"} variant={"ghost"}>
-          <Trash2 onClick={() => handleDelete(oneTodo.oneTodo._id as string)} />
+          <Trash2 onClick={() => handleDelete(oneTodo?.oneTodo?._id as string)} />
         </Button>
       </TableCell>
     </TableRow>
