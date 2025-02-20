@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://todo-back-end-gamma.vercel.app/api/graphql"
+schema: "https://back-end-iota-umber.vercel.app/api/graphql"
 
 documents: "./src/graphql/**/*.graphql"
 
